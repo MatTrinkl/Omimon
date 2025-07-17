@@ -1,4 +1,4 @@
-package Omidex;
+package Omidex.Omimon;
 
 public enum OmiType {
 Water,Fire,Plant,Normal;

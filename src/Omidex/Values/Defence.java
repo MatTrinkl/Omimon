@@ -1,5 +1,8 @@
 package Omidex.Values;
 
-public class Defence implements Valueable {
+public class Defence extends BaseValue {
 
+  public Defence(int value) {
+    super.setValue(value);
+  }
 }
