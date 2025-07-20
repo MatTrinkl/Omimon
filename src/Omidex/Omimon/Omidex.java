@@ -1,17 +1,19 @@
 package Omidex.Omimon;
 
+import Omidex.Battle.Attack;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Omidex {
 
   Map<String, OmimonBlueprint> blueprintsByName;
+  Map<String, Attack> attacksByName;
   private static Omidex Instance; //Singelton
 
   private Omidex() {
     blueprintsByName = Omidex.createBluePrints();
+    attacksByName= Omidex.createAttacks();
   }
-
 
   public static Omidex getInstance() {
     if (Instance == null) {
@@ -32,5 +34,10 @@ public class Omidex {
     Map<String, OmimonBlueprint> blueprints = new HashMap<String, OmimonBlueprint>();
     //blueprints.put()
     return blueprints;
+  }
+  private static Map<String, Attack> createAttacks() {
+    Map<String, Attack> attacks = new HashMap<String, Attack>();
+    //blueprints.put()
+    return attacks;
   }
 }

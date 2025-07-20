@@ -14,4 +14,7 @@ public class Health extends BaseValue implements ValueUpdatable{
     value = BaseValue.CastValue(value);
     return true;
   }
+  public void Heal(){
+    super.setValue(255);
+  }
 }
