@@ -12,17 +12,40 @@ public class Attack {
   private OmiType type;
   private List<AttackEffects> possibleEffects;
 
+  public int getStrength() {
+    return strength.getValue();
+  }
+  public int getStrengthComparedWithType(Omimon defender){
+    return calculateBaseDmg(defender);
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public OmiType getType() {
+    return type;
+  }
+
+  public List<AttackEffects> getPossibleEffects() {
+    return possibleEffects;
+  }
+
   public void OnAttack(Omimon attacker,Omimon defender){
-    double multiplier = type.getEffectivenessAgainst(defender.getBlueprint().getMainType());
-    OmiType defenderType2 = defender.getBlueprint().getSecoundaryType();
-    if(defenderType2!=null){
-      multiplier *= type.getEffectivenessAgainst(defenderType2);
-    }
-    int currentDamage = (int) Math.round(strength.getValue()*multiplier);
+    int currentDamage = calculateBaseDmg(defender);
     int currentBaseDmg = currentDamage;
     for(AttackEffects e : possibleEffects){
       currentDamage+=e.ApplyEffect(this,attacker, defender,currentBaseDmg);
     }
     defender.takeDamage(currentDamage);
+  }
+
+  private int calculateBaseDmg(Omimon defender){
+    double multiplier = type.getEffectivenessAgainst(defender.getBlueprint().getMainType());
+    OmiType defenderType2 = defender.getBlueprint().getSecoundaryType();
+    if(defenderType2!=null){
+      multiplier *= type.getEffectivenessAgainst(defenderType2);
+    }
+    return (int) Math.round(strength.getValue()*multiplier);
   }
 }
