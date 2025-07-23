@@ -4,14 +4,20 @@ import Omidex.Battle.BattleAction;
 import Omidex.Omimon.*;
 
 public class SmartActionStrategy implements ActionStrategy {
-
+  OmiType attMain;
+  OmiType defMain;
+  OmiType attSec;
+  OmiType defSec;
+  public SmartActionStrategy(Omimon attacker, Omimon defender) {
+    attMain= attacker.getBlueprint().getMainType();
+    defMain= defender.getBlueprint().getMainType();
+    attSec = attacker.getBlueprint().getSecoundaryType();
+    defSec = defender.getBlueprint().getSecoundaryType();
+  }
   @Override
-  public BattleAction getNextActionByStrategy(Omimon attacker, Omimon defender) {
+  public BattleAction getNextActionByStrategy() {
     double typeDifference = 1;
-    OmiType attMain = attacker.getBlueprint().getMainType();
-    OmiType defMain = defender.getBlueprint().getMainType();
-    OmiType attSec = attacker.getBlueprint().getSecoundaryType();
-    OmiType defSec = defender.getBlueprint().getSecoundaryType();
+
     typeDifference *= attMain.compareTo(defMain);
 
     typeDifference *= attSec != null ? attSec.compareTo(defSec) : 1;

@@ -4,5 +4,5 @@ import Omidex.Battle.Attack;
 import Omidex.Omimon.Omimon;
 
 public interface BattleStrategy {
-public Attack selectAttackViaStrategy(Omimon attacker, Omimon defender);
+public Attack selectAttackFromStrategy(Omimon attacker, Omimon defender);
 }

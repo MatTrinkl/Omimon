@@ -1,7 +1,9 @@
 package Omidex.Omimon;
 
 import Omidex.Battle.Attack;
+import Omidex.Battle.Strategy.BattleStrategy.BattleStrategy;
 import Omidex.Values.*;
+import Omidex.Trainer;
 import java.util.List;
 
 public class OmimonBlueprint {
@@ -15,9 +17,15 @@ public class OmimonBlueprint {
   private int levelToEvolve;
   private List<Attack> attacks;
 
+  public BattleStrategy getBattleStrategy() {
+    return battleStrategy;
+  }
+
+  private BattleStrategy battleStrategy;
+
   public OmimonBlueprint(String name, OmiType mainType, OmiType secoundaryType, int baseDefence,
       int baseHealth, int baseSpeed, OmimonBlueprint evolution, int levelToEvolve,
-      List<Attack> attacks) {
+      List<Attack> attacks, BattleStrategy battleStrategy) {
     this.name = name;
     this.mainType = mainType;
     this.secoundaryType = secoundaryType;
@@ -27,9 +35,10 @@ public class OmimonBlueprint {
     this.evolution = evolution;
     this.levelToEvolve = levelToEvolve;
     this.attacks = attacks;
+    this.battleStrategy = battleStrategy;
   }
-  public Omimon createInstance(String nickname,int initLevel){
-    return new Omimon(this,nickname,initLevel);
+  public Omimon createInstance(String nickname,int initLevel, Trainer trainer) {
+    return new Omimon(this,nickname,initLevel,trainer);
   }
 
   private void setBaseDefence(int baseDefence) {

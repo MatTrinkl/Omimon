@@ -1,6 +1,7 @@
 package Omidex.Omimon;
 
 import Omidex.Battle.Attack;
+import Omidex.Battle.Strategy.BattleStrategy.BattleStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class OmimonBlueprintBuilder {
   private OmimonBlueprint evolution;
   private int levelToEvolve;
   private List<Attack> attacks;
+  private BattleStrategy battleStrategy;
 
 
   public OmimonBlueprintBuilder() {
@@ -68,9 +70,14 @@ public class OmimonBlueprintBuilder {
     return this;
   }
 
+  public OmimonBlueprintBuilder setBattleStrategy(BattleStrategy battleStrategy) {
+    this.battleStrategy = battleStrategy;
+    return this;
+  }
+
   public OmimonBlueprint build() {
     return new OmimonBlueprint(this.name, this.mainType, this.secoundaryType, this.baseDefence,
-        this.baseHealth, this.baseSpeed, this.evolution, this.levelToEvolve, this.attacks);
+        this.baseHealth, this.baseSpeed, this.evolution, this.levelToEvolve, this.attacks,this.battleStrategy);
   }
 
 }

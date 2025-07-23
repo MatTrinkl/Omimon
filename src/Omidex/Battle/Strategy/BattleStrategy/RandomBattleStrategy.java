@@ -6,7 +6,7 @@ import Omidex.Omimon.Omimon;
 public class RandomBattleStrategy implements BattleStrategy {
 
   @Override
-  public Attack selectAttackViaStrategy(Omimon attacker, Omimon defender) {
+  public Attack selectAttackFromStrategy(Omimon attacker, Omimon defender) {
    return attacker.getAttacks().get((int) (Math.random() * attacker.getAttacks().size()));
   }
 }

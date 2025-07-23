@@ -4,5 +4,5 @@ import Omidex.Battle.BattleAction;
 import Omidex.Omimon.Omimon;
 
 public interface ActionStrategy {
-public BattleAction getNextActionByStrategy(Omimon Attacker, Omimon defender);
+public BattleAction getNextActionByStrategy();
 }

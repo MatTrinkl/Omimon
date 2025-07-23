@@ -8,7 +8,7 @@ import java.util.Optional;
 public class StrengthBattleStrategy implements BattleStrategy {
 
   @Override
-  public Attack selectAttackViaStrategy(Omimon attacker, Omimon defender) {
+  public Attack selectAttackFromStrategy(Omimon attacker, Omimon defender) {
     Optional<Attack> strongestAttack = attacker.getAttacks().stream()
         .max(Comparator.comparingInt(Attack::getStrength));
     return strongestAttack.get();

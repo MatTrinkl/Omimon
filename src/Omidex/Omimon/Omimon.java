@@ -14,6 +14,19 @@ public class Omimon {
   private Defence currentDefence;
   private int level;
   private List<Attack> attacks;
+
+  public Trainer getTrainer() {
+    return trainer;
+  }
+
+  public int getLevel() {
+    return level;
+  }
+
+  public Battle getCurrentBattle() {
+    return currentBattle;
+  }
+
   private Trainer trainer;
   private Battle currentBattle;
 
@@ -79,8 +92,8 @@ public class Omimon {
   }
 
   private void onDeath() {
-    trainer.OnOmimonDeath(this);
-    currentBattle.cancleCurrentRoundAndSendNewOmimonOut(this);
+    trainer.onOmimonDeath(this);
+    currentBattle.cancelCurrentRoundAndSendNewOmimonOut(this);
     currentBattle = null;
   }
 

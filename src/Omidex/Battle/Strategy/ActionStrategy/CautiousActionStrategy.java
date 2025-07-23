@@ -5,9 +5,14 @@ import Omidex.Omimon.Omimon;
 
 public class CautiousActionStrategy implements ActionStrategy {
 
+  private Omimon attacker;
+
+  public CautiousActionStrategy(Omimon attacker) {
+    this.attacker = attacker;
+  }
   @Override
-  public BattleAction getNextActionByStrategy(Omimon Attacker, Omimon defender) {
-    if(Attacker.getCurrentHealth()<125)
+  public BattleAction getNextActionByStrategy() {
+    if(attacker.getCurrentHealth()<125)
       return BattleAction.SWITCH;
     return BattleAction.ATTACK;
   }
