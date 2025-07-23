@@ -8,7 +8,8 @@ import java.util.List;
 
 public class Trainer {
 
-  private List<Omimon> omimons;
+  private List<Omimon> lifingOmimons;
+  private List<Omimon> deadOmimons;
   private String name;
   private String gender;
   private int id;
@@ -17,7 +18,7 @@ public class Trainer {
   private BattleStrategy battleStrategy;
 
   public boolean CaptureOmmimon(OmimonBlueprint blueprint, String name, int level) {
-    if (omimons.size() < 6) {
+    if (lifingOmimons.size() < 6) {
       blueprint.createInstance(name, level);
       return true;
     } else {
@@ -25,4 +26,15 @@ public class Trainer {
     }
   }
 
+  public Omimon getRandomOmimonWithCanFight() {
+    return lifingOmimons.get((int) (Math.random() * lifingOmimons.size()));
+  }
+  public void OnOmimonDeath(Omimon omimon) {
+    deadOmimons.add(omimon);
+    lifingOmimons.remove(omimon);
+  }
+
+  public boolean hasBattleReadyOmimons() {
+    return !lifingOmimons.isEmpty();
+  }
 }
