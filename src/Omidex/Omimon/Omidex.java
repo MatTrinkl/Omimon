@@ -1,8 +1,12 @@
 package Omidex.Omimon;
 
 import Omidex.Battle.Attack;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class Omidex {
 
@@ -32,12 +36,11 @@ public class Omidex {
 
   private static Map<String, OmimonBlueprint> createBluePrints() {
     Map<String, OmimonBlueprint> blueprints = new HashMap<String, OmimonBlueprint>();
-    //blueprints.put()
     return blueprints;
   }
   private static Map<String, Attack> createAttacks() {
     Map<String, Attack> attacks = new HashMap<String, Attack>();
-    //blueprints.put()
+
     return attacks;
   }
 }
