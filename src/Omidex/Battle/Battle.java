@@ -97,7 +97,7 @@ public class Battle {
     if (fighterB == omimonEscaped && trainerB == null) {
       Victory(trainerA);
     } else {
-      throw new IllegalArgumentException("Trainer B is not null. You cannot escape from a Trainer Battle. Only from Battle with wild Omimons.)";
+      throw new IllegalArgumentException("Trainer B is not null. You cannot escape from a Trainer Battle. Only from Battle with wild Omimons.");
     }
   }
 
