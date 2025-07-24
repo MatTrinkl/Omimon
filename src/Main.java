@@ -1,9 +1,8 @@
-import Omidex.Battle.Battle;
-import Omidex.Battle.Strategy.ActionStrategy.CautiousActionStrategy;
-import Omidex.Battle.Strategy.ActionStrategy.ConfidentActionStrategy;
-import Omidex.Battle.Strategy.ActionStrategy.SmartActionStrategy;
-import Omidex.Omimon.*;
-import Omidex.Trainer;
+import at.trinkl.Omimon.Battle.Battle;
+import at.trinkl.Omimon.Battle.Strategy.ActionStrategy.CautiousActionStrategy;
+import at.trinkl.Omimon.Battle.Strategy.ActionStrategy.ConfidentActionStrategy;
+import at.trinkl.Omimon.Omimon.Omidex;
+import at.trinkl.Omimon.Trainer;
 
 
 public class Main {
