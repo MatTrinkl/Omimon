@@ -4,16 +4,18 @@ import Omidex.Battle.Attack;
 import Omidex.Battle.Strategy.BattleStrategy.BattleStrategy;
 import Omidex.Values.*;
 import Omidex.Trainer;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OmimonBlueprint {
+
   private String name;
   private OmiType mainType;
   private OmiType secoundaryType;
   private int baseDefence;
   private int baseHealth;
   private int baseSpeed;
-  private OmimonBlueprint evolution;
+  private String evolution;
   private int levelToEvolve;
   private List<Attack> attacks;
 
@@ -24,7 +26,7 @@ public class OmimonBlueprint {
   private BattleStrategy battleStrategy;
 
   public OmimonBlueprint(String name, OmiType mainType, OmiType secoundaryType, int baseDefence,
-      int baseHealth, int baseSpeed, OmimonBlueprint evolution, int levelToEvolve,
+      int baseHealth, int baseSpeed, String evolution, int levelToEvolve,
       List<Attack> attacks, BattleStrategy battleStrategy) {
     this.name = name;
     this.mainType = mainType;
@@ -34,11 +36,16 @@ public class OmimonBlueprint {
     setBaseSpeed(baseSpeed);
     this.evolution = evolution;
     this.levelToEvolve = levelToEvolve;
-    this.attacks = attacks;
+    if(attacks != null) {
+      this.attacks = attacks;
+    }else{
+      this.attacks = new ArrayList<>();
+    }
     this.battleStrategy = battleStrategy;
   }
-  public Omimon createInstance(String nickname,int initLevel, Trainer trainer) {
-    return new Omimon(this,nickname,initLevel,trainer);
+
+  public Omimon createInstance(String nickname, int initLevel, Trainer trainer) {
+    return new Omimon(this, nickname, initLevel, trainer);
   }
 
   private void setBaseDefence(int baseDefence) {
@@ -78,7 +85,7 @@ public class OmimonBlueprint {
   }
 
   public OmimonBlueprint getEvolution() {
-    return evolution;
+    return Omidex.getInstance().getBluePrint(this.evolution);
   }
 
   public int getLevelToEvolve() {
@@ -87,5 +94,9 @@ public class OmimonBlueprint {
 
   public List<Attack> getAttacks() {
     return attacks;
+  }
+
+  public void addAttack(Attack attack) {
+    attacks.add(attack);
   }
 }

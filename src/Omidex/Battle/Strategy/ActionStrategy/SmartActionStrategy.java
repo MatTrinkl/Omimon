@@ -4,25 +4,21 @@ import Omidex.Battle.BattleAction;
 import Omidex.Omimon.*;
 
 public class SmartActionStrategy implements ActionStrategy {
-  OmiType attMain;
-  OmiType defMain;
-  OmiType attSec;
-  OmiType defSec;
-  public SmartActionStrategy(Omimon attacker, Omimon defender) {
-    attMain= attacker.getBlueprint().getMainType();
-    defMain= defender.getBlueprint().getMainType();
-    attSec = attacker.getBlueprint().getSecoundaryType();
-    defSec = defender.getBlueprint().getSecoundaryType();
-  }
+
   @Override
-  public BattleAction getNextActionByStrategy() {
+  public BattleAction getNextActionByStrategy(Omimon attacker, Omimon defender) {
     double typeDifference = 1;
 
-    typeDifference *= attMain.compareTo(defMain);
+    OmiType attMain= attacker.getBlueprint().getMainType();
+    OmiType defMain= defender.getBlueprint().getMainType();
+    OmiType attSec = attacker.getBlueprint().getSecoundaryType();
+    OmiType defSec = defender.getBlueprint().getSecoundaryType();
 
-    typeDifference *= attSec != null ? attSec.compareTo(defSec) : 1;
-    typeDifference *= defSec != null ? attMain.compareTo(defSec) : 1;
-    typeDifference *= attSec != null ? attSec.compareTo(defMain): 1;
+    typeDifference *= attMain.getEffectivenessAgainst(defMain);
+
+    typeDifference *= attSec != null ? attSec.getEffectivenessAgainst(defSec) : 1;
+    typeDifference *= defSec != null ? attMain.getEffectivenessAgainst(defSec) : 1;
+    typeDifference *= attSec != null ? attSec.getEffectivenessAgainst(defMain): 1;
 
     if (typeDifference < 1) {
       return BattleAction.SWITCH;

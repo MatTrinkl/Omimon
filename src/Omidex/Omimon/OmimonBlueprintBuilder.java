@@ -13,7 +13,7 @@ public class OmimonBlueprintBuilder {
   private int baseDefence;
   private int baseHealth;
   private int baseSpeed;
-  private OmimonBlueprint evolution;
+  private String evolution;
   private int levelToEvolve;
   private List<Attack> attacks;
   private BattleStrategy battleStrategy;
@@ -52,8 +52,8 @@ public class OmimonBlueprintBuilder {
     return this;
   }
 
-  public OmimonBlueprintBuilder setEvolution(OmimonBlueprint e) {
-    this.evolution = e;
+  public OmimonBlueprintBuilder setEvolution(String evolution) {
+    this.evolution = evolution;
     return this;
   }
 

@@ -7,11 +7,11 @@ public class CautiousActionStrategy implements ActionStrategy {
 
   private Omimon attacker;
 
-  public CautiousActionStrategy(Omimon attacker) {
+  public CautiousActionStrategy() {
     this.attacker = attacker;
   }
   @Override
-  public BattleAction getNextActionByStrategy() {
+  public BattleAction getNextActionByStrategy(Omimon attacker, Omimon defender) {
     if(attacker.getCurrentHealth()<125)
       return BattleAction.SWITCH;
     return BattleAction.ATTACK;

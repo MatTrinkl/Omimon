@@ -3,6 +3,7 @@ package Omidex;
 import Omidex.Battle.Strategy.ActionStrategy.ActionStrategy;
 import Omidex.Omimon.Omimon;
 import Omidex.Omimon.OmimonBlueprint;
+import Omidex.Omimon.Omidex;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +38,20 @@ public class Trainer {
     return id;
   }
 
-  public boolean CaptureOmmimon(OmimonBlueprint blueprint, String name, int level) {
+  public boolean captureOmmimon(OmimonBlueprint blueprint, String name, int level) {
     if (livingOmimons.size() < 6) {
-      blueprint.createInstance(name, level,this);
+      livingOmimons.add(blueprint.createInstance(name, level,this));
       return true;
     } else {
-      throw new ArrayIndexOutOfBoundsException("There can be only 6 Omimons");
+      return false;
+    }
+  }
+  public boolean captureOmmimon(String blueprint, String name, int level) {
+    if (livingOmimons.size() < 6) {
+      livingOmimons.add(Omidex.getInstance().getBluePrint(blueprint).createInstance(name, level,this));
+      return true;
+    } else {
+      return false;
     }
   }
 

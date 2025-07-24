@@ -13,7 +13,12 @@ public class EscapeBattleCommand implements BattleCommand {
 
 
   @Override
-  public void execute() {
+  public void execute( Omimon attacker, Omimon defender) {
     battle.OmimonEscaped(omimonEscaped);
+  }
+
+  @Override
+  public Omimon getExecuter() {
+    return omimonEscaped;
   }
 }

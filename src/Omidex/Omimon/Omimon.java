@@ -92,9 +92,10 @@ public class Omimon {
   }
 
   private void onDeath() {
+    System.out.println(name + " died!");
     trainer.onOmimonDeath(this);
     currentBattle.cancelCurrentRoundAndSendNewOmimonOut(this);
-    currentBattle = null;
+
   }
 
   public boolean isAlive() {

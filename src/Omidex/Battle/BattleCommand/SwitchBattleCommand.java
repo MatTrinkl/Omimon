@@ -15,7 +15,13 @@ public SwitchBattleCommand(Battle battle, Trainer trainer, Omimon omimonToSwitch
 }
 
   @Override
-  public void execute() {
+  public void execute( Omimon attacker, Omimon defender) {
+    System.out.println(trainer.getName()+ " switched out "+ omimonToSwitch.getName());
     battle.switchOmimon(omimonToSwitch, trainer.getRandomOmimonWithCanFight());
+  }
+
+  @Override
+  public Omimon getExecuter() {
+    return omimonToSwitch;
   }
 }

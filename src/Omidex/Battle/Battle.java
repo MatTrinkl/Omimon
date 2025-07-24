@@ -40,7 +40,7 @@ public class Battle {
     this.trainerB = null;
     this.fighterB = wildOmimon;
     this.fighterB.registerToBattle(this);
-    actionStrategyTrainerBOrWildOmimon = new CautiousActionStrategy(wildOmimon);
+    actionStrategyTrainerBOrWildOmimon = new CautiousActionStrategy();
   }
 
   public Battle(Trainer trainerA, Trainer trainerB) {
@@ -90,10 +90,10 @@ public class Battle {
   }
 
   private void prepareRound() {
-    BattleAction battleActionFighterA = actionStrategyTrainerA.getNextActionByStrategy();
-    BattleAction battleActionFighterB = actionStrategyTrainerBOrWildOmimon.getNextActionByStrategy();
+    BattleAction battleActionFighterA = actionStrategyTrainerA.getNextActionByStrategy(fighterA,fighterB);
+    BattleAction battleActionFighterB = actionStrategyTrainerBOrWildOmimon.getNextActionByStrategy(fighterB,fighterA);
 
-    int comparison = -battleActionFighterA.compareTo(battleActionFighterB);
+    int comparison = battleActionFighterA.compareTo(battleActionFighterB);
     if (comparison == 0) {
       if (fighterA.getCurrentSpeed() >= fighterB.getCurrentSpeed()) {
         executeAction(battleActionFighterA, fighterA, fighterB);
@@ -123,28 +123,39 @@ public class Battle {
       case ATTACK:
         BattleStrategy battleStrategy = attacker.getBlueprint().getBattleStrategy();
         Attack attackFromStrategy = battleStrategy.selectAttackFromStrategy(attacker, defender);
-        commandQueue.add(new AttackBattleCommand(attackFromStrategy, attacker, defender));
+        commandQueue.add(new AttackBattleCommand(attackFromStrategy, attacker));
     }
   }
 
   private void executeRound() {
+
     while (!commandQueue.isEmpty()) {
-      commandQueue.poll().execute();
+
+      BattleCommand battleCommand= commandQueue.poll();
+      if(battleCommand.getExecuter()==fighterA){
+        battleCommand.execute(fighterA,fighterB);
+      }else{
+        battleCommand.execute(fighterB,fighterA);
+      }
     }
   }
 
 
   public void switchOmimon(Omimon omimonToSwitch, Omimon newOmimon) {
+
     if (fighterA == omimonToSwitch) {
       fighterA.deRegisterFromBattle();
       fighterA = newOmimon;
+      fighterA.registerToBattle(this);
     } else if (fighterB == omimonToSwitch) {
       fighterB.deRegisterFromBattle();
       fighterB = newOmimon;
+      fighterB.registerToBattle(this);
     } else {
       throw new IllegalArgumentException(
           omimonToSwitch.getName() + " does not belong to the fighter");
     }
+
   }
 
   public void OmimonEscaped(Omimon omimonEscaped) {

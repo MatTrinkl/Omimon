@@ -6,7 +6,7 @@ import Omidex.Omimon.Omimon;
 public class ConfidentActionStrategy implements ActionStrategy {
 
   @Override
-  public BattleAction getNextActionByStrategy() {
+  public BattleAction getNextActionByStrategy(Omimon attacker, Omimon defender) {
     return BattleAction.ATTACK;
   }
 }
