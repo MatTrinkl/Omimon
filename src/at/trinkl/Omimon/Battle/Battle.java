@@ -86,12 +86,13 @@ public class Battle implements BattleContext {
    */
   public void executeBattle() {
     if (trainerB == null) {
-      while (trainerA.hasBattleReadyOmimons() && fighterB.isAlive()) {
+      while (trainerA.hasBattleReadyOmimons() && fighterB.isAlive() && !victoryIsTriggered) {
         prepareRound();
         executeRound();
       }
     } else {
-      while (trainerA.hasBattleReadyOmimons() && trainerB.hasBattleReadyOmimons()) {
+      while (trainerA.hasBattleReadyOmimons() && trainerB.hasBattleReadyOmimons()
+          && !victoryIsTriggered) {
         prepareRound();
         executeRound();
       }
@@ -100,11 +101,6 @@ public class Battle implements BattleContext {
 
   public void addBattleEventListener(BattleEventListener listener) {
     eventDispatcher.addListener(listener);
-  }
-
-  @Override
-  public void notifyOmimonFainted(Omimon omimon) {
-    cancelCurrentRoundAndSendNewOmimonOut(omimon);
   }
 
   /**
@@ -125,7 +121,9 @@ public class Battle implements BattleContext {
       throw new IllegalArgumentException(
           omimonToSwitch.getName() + " does not belong to the fighter");
     }
-
+    for (BattleCommand b : commandQueue) {
+      b.updateOmimons(omimonToSwitch, newOmimon);
+    }
   }
 
   /**
@@ -241,7 +239,8 @@ public class Battle implements BattleContext {
       case ATTACK:
         BattleStrategy battleStrategy = attacker.getBlueprint().getBattleStrategy();
         Attack attackFromStrategy = battleStrategy.selectAttackFromStrategy(attacker, defender);
-        commandQueue.add(commandFactory.createAttackCommand(this,attackFromStrategy, attacker,defender));
+        commandQueue.add(
+            commandFactory.createAttackCommand(this, attackFromStrategy, attacker, defender));
     }
   }
 
@@ -270,9 +269,12 @@ public class Battle implements BattleContext {
    *
    * @param deadOmimon The Omimon that fainted.
    */
-  private void cancelCurrentRoundAndSendNewOmimonOut(Omimon deadOmimon) {
+  public void notifyOmimonFainted(Omimon deadOmimon) {
     commandQueue.clear();
-
+    dispatchEvent(new BattleEvent(
+        BattleEventType.OMIMON_FAINTED,
+        deadOmimon.getName() + " has fainted!"
+    ));
     if (deadOmimon.equals(fighterA)) {
       checkVictoryOrSwitch(trainerA, deadOmimon, trainerB);
     } else if (deadOmimon.equals(fighterB)) {
@@ -284,5 +286,6 @@ public class Battle implements BattleContext {
     } else {
       throw new IllegalArgumentException("Dead Omimon not part of the fight.");
     }
+
   }
 }

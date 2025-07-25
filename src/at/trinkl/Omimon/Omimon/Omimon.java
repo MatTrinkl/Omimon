@@ -201,12 +201,14 @@ public class Omimon {
    */
   public void registerToBattle(BattleContext battle) {
     currentBattle = battle;
+    currentBattle.dispatchEvent(new BattleEvent(BattleEventType.REGISTER_SUCCESSFUL,getName()));
   }
 
   /**
    * Deregisters this Omimon from the current battle.
    */
   public void deRegisterFromBattle() {
+    currentBattle.dispatchEvent(new BattleEvent(BattleEventType.DEREGISTER_SUCCESSFUL,getName()));
     currentBattle = null;
   }
 
@@ -225,12 +227,8 @@ public class Omimon {
    * Internal death handling. Notifies the trainer and battle system that this Omimon has fainted.
    */
   private void onDeath() {
-    currentBattle.dispatchEvent(new BattleEvent(
-        BattleEventType.OMIMON_FAINTED,
-        name + " has fainted!"
-    ));
-
     trainer.onOmimonDeath(this);
     currentBattle.notifyOmimonFainted(this);
+
   }
 }

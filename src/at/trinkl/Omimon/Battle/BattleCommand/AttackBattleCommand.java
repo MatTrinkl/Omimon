@@ -59,4 +59,13 @@ public class AttackBattleCommand implements BattleCommand {
   public Omimon getExecuter() {
     return executer;
   }
+
+  @Override
+  public void updateOmimons(Omimon oldOne, Omimon newOne) {
+    if (oldOne == executer) {
+      executer = newOne;
+    } else if (oldOne == defender) {
+      defender = newOne;
+    }
+  }
 }

@@ -30,4 +30,5 @@ public interface BattleCommand {
    * @return The {@link Omimon} that will execute or has executed this command.
    */
   public Omimon getExecuter();
+  public void updateOmimons(Omimon oldOne, Omimon newOne);
 }

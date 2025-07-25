@@ -58,4 +58,11 @@ public class SwitchBattleCommand implements BattleCommand {
   public Omimon getExecuter() {
     return omimonToSwitch;
   }
+
+  @Override
+  public void updateOmimons(Omimon oldOne, Omimon newOne) {
+    if (oldOne == omimonToSwitch) {
+      omimonToSwitch = newOne;
+    }
+  }
 }

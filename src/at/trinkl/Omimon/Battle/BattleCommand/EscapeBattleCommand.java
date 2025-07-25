@@ -49,4 +49,10 @@ public class EscapeBattleCommand implements BattleCommand {
   public Omimon getExecuter() {
     return omimonEscaped;
   }
+  @Override
+  public void updateOmimons(Omimon oldOne, Omimon newOne) {
+    if (oldOne == omimonEscaped) {
+      omimonEscaped = newOne;
+    }
+  }
 }
