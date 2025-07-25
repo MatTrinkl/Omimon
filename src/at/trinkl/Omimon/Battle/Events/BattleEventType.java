@@ -1,0 +1,9 @@
+package at.trinkl.Omimon.Battle.Events;
+
+public enum BattleEventType {
+  OMIMON_FAINTED,
+  VICTORY,
+  ATTACK_EXECUTED,
+  SWITCH_PERFORMED,
+  ESCAPE_SUCCESSFUL
+}

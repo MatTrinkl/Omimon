@@ -2,8 +2,13 @@ package at.trinkl.Omimon.Battle;
 
 import at.trinkl.Omimon.Battle.BattleCommand.AttackBattleCommand;
 import at.trinkl.Omimon.Battle.BattleCommand.BattleCommand;
+import at.trinkl.Omimon.Battle.BattleCommand.BattleCommandFactory;
 import at.trinkl.Omimon.Battle.BattleCommand.EscapeBattleCommand;
 import at.trinkl.Omimon.Battle.BattleCommand.SwitchBattleCommand;
+import at.trinkl.Omimon.Battle.Events.BattleEvent;
+import at.trinkl.Omimon.Battle.Events.BattleEventDispatcher;
+import at.trinkl.Omimon.Battle.Events.BattleEventListener;
+import at.trinkl.Omimon.Battle.Events.BattleEventType;
 import at.trinkl.Omimon.Battle.Strategy.ActionStrategy.ActionStrategy;
 import at.trinkl.Omimon.Battle.Strategy.ActionStrategy.CautiousActionStrategy;
 import at.trinkl.Omimon.Battle.Strategy.BattleStrategy.BattleStrategy;
@@ -13,14 +18,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Manages a turn-based battle between two {@link Omimon}, either as a trainer battle or a wild
- * encounter.
+ * Represents the full turn-based battle system between two {@link Trainer}s or between a trainer
+ * and a wild {@link Omimon}.
  * <p>
- * Handles round preparation, action resolution, switching logic, and victory conditions. Commands
- * are queued and executed in a turn-based manner using {@link BattleCommand}s.
+ * Handles turn preparation, action execution, health checks, switching, escaping, and victory
+ * conditions. This class implements {@link BattleContext} to expose only essential control methods
+ * to dependent components like {@link Omimon} and {@link BattleCommand}.
  * </p>
  */
-public class Battle {
+public class Battle implements BattleContext {
 
   private final Queue<BattleCommand> commandQueue;
 
@@ -32,6 +38,8 @@ public class Battle {
 
   private Omimon fighterA, fighterB;
   private boolean victoryIsTriggered;
+  private final BattleCommandFactory commandFactory = new BattleCommandFactory(this);
+  private final BattleEventDispatcher eventDispatcher = new BattleEventDispatcher();
 
   /**
    * Private base constructor. Sets up fighterA and initializes the queue.
@@ -90,26 +98,75 @@ public class Battle {
     }
   }
 
-  /**
-   * Handles a situation where an {@link Omimon} has fainted mid-round. Cancels all pending actions
-   * and attempts to switch in a new fighter or declares victory if no options remain.
-   *
-   * @param deadOmimon The Omimon that fainted.
-   */
-  public void cancelCurrentRoundAndSendNewOmimonOut(Omimon deadOmimon) {
-    commandQueue.clear();
+  public void addBattleEventListener(BattleEventListener listener) {
+    eventDispatcher.addListener(listener);
+  }
 
-    if (deadOmimon.equals(fighterA)) {
-      checkVictoryOrSwitch(trainerA, deadOmimon, trainerB);
-    } else if (deadOmimon.equals(fighterB)) {
-      if (trainerB == null) {
-        Victory(trainerA);
-      } else {
-        checkVictoryOrSwitch(trainerB, deadOmimon, trainerA);
-      }
+  @Override
+  public void notifyOmimonFainted(Omimon omimon) {
+    cancelCurrentRoundAndSendNewOmimonOut(omimon);
+  }
+
+  /**
+   * Replaces a fainted or switched {@link Omimon} with a new one in the battle.
+   *
+   * @param omimonToSwitch The Omimon currently in battle to be removed.
+   * @param newOmimon      The new Omimon to bring in.
+   * @throws IllegalArgumentException if {@code omimonToSwitch} is not currently fighting.
+   */
+  public void switchOmimon(Omimon omimonToSwitch, Omimon newOmimon) {
+    omimonToSwitch.deRegisterFromBattle();
+    newOmimon.registerToBattle(this);
+    if (fighterA == omimonToSwitch) {
+      fighterA = newOmimon;
+    } else if (fighterB == omimonToSwitch) {
+      fighterB = newOmimon;
     } else {
-      throw new IllegalArgumentException("Dead Omimon not part of the fight.");
+      throw new IllegalArgumentException(
+          omimonToSwitch.getName() + " does not belong to the fighter");
     }
+
+  }
+
+  /**
+   * Handles escape attempts by wild {@link Omimon}s.
+   *
+   * @param omimonEscaped The escaping Omimon.
+   * @throws IllegalArgumentException if {@code TrainerB} is not null and this is a trainer battle.
+   */
+  @Override
+  public void omimonEscaped(Omimon omimonEscaped) {
+    if (fighterB == omimonEscaped && trainerB == null) {
+      triggerVictory(trainerA);
+    } else {
+      throw new IllegalArgumentException(
+          "Trainer B is not null. You cannot escape from a Trainer Battle. Only from Battle with wild Omimons.");
+    }
+  }
+
+  @Override
+  public void dispatchEvent(BattleEvent battleEvent) {
+    eventDispatcher.dispatch(battleEvent);
+  }
+
+  /**
+   * Declares the victory of a {@link Trainer} and ends the battle.
+   *
+   * @param trainer The winning trainer, or {@code null} if the player has lost to a wild Omimon.
+   */
+  @Override
+  public void triggerVictory(Trainer trainer) {
+    victoryIsTriggered = true;
+    fighterA.deRegisterFromBattle();
+    fighterB.deRegisterFromBattle();
+
+    eventDispatcher.dispatch(new BattleEvent(
+        BattleEventType.VICTORY,
+        trainer != null
+            ? trainer.getName() + " has won the battle."
+            : "The wild Omimon has defeated you."
+    ));
+
   }
 
   /**
@@ -124,7 +181,7 @@ public class Battle {
     if (deadOmimonTrainer.hasBattleReadyOmimons()) {
       switchOmimon(deadOmimon, deadOmimonTrainer.getRandomOmimonWithCanFight());
     } else {
-      Victory(other);
+      triggerVictory(other);
     }
   }
 
@@ -177,14 +234,14 @@ public class Battle {
     switch (actionToExecute) {
       case SWITCH:
         if (attacker == fighterB && trainerB == null) {
-          commandQueue.add(new EscapeBattleCommand(this, attacker));
+          commandQueue.add(commandFactory.createEscapeCommand(attacker));
         }
-        commandQueue.add(new SwitchBattleCommand(this, attacker.getTrainer(), attacker));
+        commandQueue.add(commandFactory.createSwitchCommand(attacker));
         break;
       case ATTACK:
         BattleStrategy battleStrategy = attacker.getBlueprint().getBattleStrategy();
         Attack attackFromStrategy = battleStrategy.selectAttackFromStrategy(attacker, defender);
-        commandQueue.add(new AttackBattleCommand(attackFromStrategy, attacker));
+        commandQueue.add(commandFactory.createAttackCommand(this,attackFromStrategy, attacker,defender));
     }
   }
 
@@ -200,68 +257,32 @@ public class Battle {
 
       BattleCommand battleCommand = commandQueue.poll();
       if (battleCommand.getExecuter() == fighterA) {
-        battleCommand.execute(fighterA, fighterB);
+        battleCommand.execute();
       } else {
-        battleCommand.execute(fighterB, fighterA);
+        battleCommand.execute();
       }
     }
   }
 
   /**
-   * Replaces a fainted or switched {@link Omimon} with a new one in the battle.
+   * Handles a situation where an {@link Omimon} has fainted mid-round. Cancels all pending actions
+   * and attempts to switch in a new fighter or declares victory if no options remain.
    *
-   * @param omimonToSwitch The Omimon currently in battle to be removed.
-   * @param newOmimon      The new Omimon to bring in.
-   * @throws IllegalArgumentException if {@code omimonToSwitch} is not currently fighting.
+   * @param deadOmimon The Omimon that fainted.
    */
-  public void switchOmimon(Omimon omimonToSwitch, Omimon newOmimon) {
+  private void cancelCurrentRoundAndSendNewOmimonOut(Omimon deadOmimon) {
+    commandQueue.clear();
 
-    if (fighterA == omimonToSwitch) {
-      fighterA.deRegisterFromBattle();
-      fighterA = newOmimon;
-      fighterA.registerToBattle(this);
-    } else if (fighterB == omimonToSwitch) {
-      fighterB.deRegisterFromBattle();
-      fighterB = newOmimon;
-      fighterB.registerToBattle(this);
+    if (deadOmimon.equals(fighterA)) {
+      checkVictoryOrSwitch(trainerA, deadOmimon, trainerB);
+    } else if (deadOmimon.equals(fighterB)) {
+      if (trainerB == null) {
+        triggerVictory(trainerA);
+      } else {
+        checkVictoryOrSwitch(trainerB, deadOmimon, trainerA);
+      }
     } else {
-      throw new IllegalArgumentException(
-          omimonToSwitch.getName() + " does not belong to the fighter");
-    }
-
-  }
-
-  /**
-   * Handles escape attempts by wild {@link Omimon}s.
-   *
-   * @param omimonEscaped The escaping Omimon.
-   * @throws IllegalArgumentException if {@code TrainerB} is not null and this is a trainer battle.
-   */
-  public void OmimonEscaped(Omimon omimonEscaped) {
-    if (fighterB == omimonEscaped && trainerB == null) {
-      Victory(trainerA);
-    } else {
-      throw new IllegalArgumentException(
-          "Trainer B is not null. You cannot escape from a Trainer Battle. Only from Battle with wild Omimons.");
-    }
-  }
-
-  /**
-   * Declares the victory of a {@link Trainer} and ends the battle.
-   *
-   * @param trainer The winning trainer, or {@code null} if the player has lost to a wild Omimon.
-   */
-  public void Victory(Trainer trainer) {
-    victoryIsTriggered = true;
-    fighterA.deRegisterFromBattle();
-    fighterB.deRegisterFromBattle();
-
-    if (trainer == null) {
-      System.out.println(
-          "The wild Omimon has defeted you. You will respawn at the next OmiCenter.");
-    } else {
-      System.out.println(trainer.getName() + " ID:" + trainer.getId()
-          + " has won the battle. He defeated all of his opponents Omimons.");
+      throw new IllegalArgumentException("Dead Omimon not part of the fight.");
     }
   }
 }

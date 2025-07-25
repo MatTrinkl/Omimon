@@ -1,6 +1,9 @@
 package at.trinkl.Omimon.Battle.BattleCommand;
 
 import at.trinkl.Omimon.Battle.Battle;
+import at.trinkl.Omimon.Battle.BattleContext;
+import at.trinkl.Omimon.Battle.Events.BattleEvent;
+import at.trinkl.Omimon.Battle.Events.BattleEventType;
 import at.trinkl.Omimon.Omimon.Omimon;
 import at.trinkl.Omimon.Trainer;
 
@@ -14,7 +17,7 @@ import at.trinkl.Omimon.Trainer;
  */
 public class SwitchBattleCommand implements BattleCommand {
 
-  private Battle battle;
+  private BattleContext battle;
   private Trainer trainer;
   private Omimon omimonToSwitch;
 
@@ -22,29 +25,27 @@ public class SwitchBattleCommand implements BattleCommand {
    * Creates a new {@code SwitchBattleCommand} with the given battle, trainer, and Omimon to switch
    * out.
    *
-   * @param battle         The current {@link Battle} context.
+   * @param battle         The current {@link BattleContext}.
    * @param trainer        The {@link Trainer} who owns the Omimon.
    * @param omimonToSwitch The {@link Omimon} to be switched out.
    */
-  public SwitchBattleCommand(Battle battle, Trainer trainer, Omimon omimonToSwitch) {
+  public SwitchBattleCommand(BattleContext battle, Trainer trainer, Omimon omimonToSwitch) {
     this.battle = battle;
     this.trainer = trainer;
     this.omimonToSwitch = omimonToSwitch;
   }
 
   /**
-   * Executes the switch command, replacing the specified Omimon with a random one
-   * from the trainer's team that is still able to fight.
+   * Executes the switch command, replacing the specified Omimon with a random one from the
+   * trainer's team that is still able to fight.
    * <p>
    * Outputs a message to the console indicating the switch.
    * </p>
-   *
-   * @param attacker  Unused in this command, included for interface compatibility.
-   * @param defender  Unused in this command, included for interface compatibility.
    */
   @Override
-  public void execute(Omimon attacker, Omimon defender) {
-    System.out.println(trainer.getName() + " switched out " + omimonToSwitch.getName());
+  public void execute() {
+    battle.dispatchEvent(new BattleEvent(BattleEventType.SWITCH_PERFORMED,
+        trainer.getName() + " switched out " + omimonToSwitch.getName()));
     battle.switchOmimon(omimonToSwitch, trainer.getRandomOmimonWithCanFight());
   }
 

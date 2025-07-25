@@ -97,7 +97,7 @@ public class Omidex {
     blue.addAttack(getInstance().getAttack("ULTIMATE"));
     blueprints.put(blue.getName(), blue);
 
-    blue = builder.setName("Queenmon").setBaseDefence(50).setBaseHealth(300)
+    blue = builder.setName("Queenmon").setBaseDefence(10).setBaseHealth(300)
         .setBaseSpeed(70).setMainType(OmiType.Fire).setSecoundaryType(OmiType.Water)
         .setBattleStrategy(new SmartBattleStrategy()).build();
     blue.addAttack(getInstance().getAttack("Cuddle"));
@@ -113,7 +113,7 @@ public class Omidex {
     blue.addAttack(getInstance().getAttack("ULTIMATE"));
     blueprints.put(blue.getName(), blue);
 
-    blue = builder.setName("Glumandi").setBaseDefence(30).setBaseHealth(77)
+    blue = builder.setName("Glumandi").setBaseDefence(5).setBaseHealth(77)
         .setBaseSpeed(20).setMainType(OmiType.Fire)
         .setBattleStrategy(new StrengthBattleStrategy()).build();
     blue.addAttack(getInstance().getAttack("Cuddle"));
@@ -130,7 +130,7 @@ public class Omidex {
    */
   private static Map<String, Attack> createAttacks() {
     Map<String, Attack> attacks = new HashMap<String, Attack>();
-    Attack a = new Attack("Cuddle", new Strength(15), OmiType.Normal,
+    Attack a = new Attack("Cuddle", new Strength(35), OmiType.Normal,
         Arrays.asList(new AttackEffects[]{new CriticalAttack()}));
     attacks.put(a.getName(), a);
     a = new Attack("FireDoublePunch", new Strength(20), OmiType.Fire,

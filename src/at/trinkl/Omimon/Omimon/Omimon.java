@@ -3,6 +3,9 @@ package at.trinkl.Omimon.Omimon;
 
 import at.trinkl.Omimon.Battle.Attack;
 import at.trinkl.Omimon.Battle.Battle;
+import at.trinkl.Omimon.Battle.BattleContext;
+import at.trinkl.Omimon.Battle.Events.BattleEvent;
+import at.trinkl.Omimon.Battle.Events.BattleEventType;
 import at.trinkl.Omimon.Values.Defence;
 import at.trinkl.Omimon.Values.Health;
 import at.trinkl.Omimon.Values.Speed;
@@ -28,7 +31,7 @@ public class Omimon {
   private int level;
   private List<Attack> attacks;
   private Trainer trainer;
-  private Battle currentBattle;
+  private BattleContext currentBattle;
 
   /**
    * Returns the {@link Trainer} who owns this Omimon.
@@ -53,7 +56,7 @@ public class Omimon {
    *
    * @return The current battle, or {@code null} if none.
    */
-  public Battle getCurrentBattle() {
+  public BattleContext getCurrentBattle() {
     return currentBattle;
   }
 
@@ -196,7 +199,7 @@ public class Omimon {
    *
    * @param battle The battle to join.
    */
-  public void registerToBattle(Battle battle) {
+  public void registerToBattle(BattleContext battle) {
     currentBattle = battle;
   }
 
@@ -222,8 +225,12 @@ public class Omimon {
    * Internal death handling. Notifies the trainer and battle system that this Omimon has fainted.
    */
   private void onDeath() {
-    System.out.println(name + " died!");
+    currentBattle.dispatchEvent(new BattleEvent(
+        BattleEventType.OMIMON_FAINTED,
+        name + " has fainted!"
+    ));
+
     trainer.onOmimonDeath(this);
-    currentBattle.cancelCurrentRoundAndSendNewOmimonOut(this);
+    currentBattle.notifyOmimonFainted(this);
   }
 }
