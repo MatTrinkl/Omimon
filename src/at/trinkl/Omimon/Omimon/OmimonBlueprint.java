@@ -7,6 +7,7 @@ import at.trinkl.Omimon.Trainer;
 import at.trinkl.Omimon.Values.BaseValue;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a blueprint for creating {@link Omimon} instances.
@@ -53,11 +54,7 @@ public class OmimonBlueprint {
     setBaseSpeed(baseSpeed);
     this.evolution = evolution;
     this.levelToEvolve = levelToEvolve;
-    if (attacks != null) {
-      this.attacks = attacks;
-    } else {
-      this.attacks = new ArrayList<>();
-    }
+    this.attacks = Objects.requireNonNullElseGet(attacks, ArrayList::new);
     this.battleStrategy = battleStrategy;
   }
 

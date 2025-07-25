@@ -1,6 +1,5 @@
 package at.trinkl.Omimon.Battle.BattleCommand;
 
-import at.trinkl.Omimon.Battle.Battle;
 import at.trinkl.Omimon.Battle.BattleContext;
 import at.trinkl.Omimon.Battle.Events.BattleEvent;
 import at.trinkl.Omimon.Battle.Events.BattleEventType;

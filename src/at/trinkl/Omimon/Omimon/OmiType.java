@@ -6,9 +6,6 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Map;
 
 /**
  * Represents an elemental type used by {@link Omimon} and {@link Attack}.

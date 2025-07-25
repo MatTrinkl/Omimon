@@ -86,7 +86,7 @@ public class Omidex {
    * @return A map of blueprint names to {@link OmimonBlueprint} objects.
    */
   private static Map<String, OmimonBlueprint> createBluePrints() {
-    Map<String, OmimonBlueprint> blueprints = new HashMap<String, OmimonBlueprint>();
+    Map<String, OmimonBlueprint> blueprints = new HashMap<>();
     OmimonBlueprintBuilder builder = new OmimonBlueprintBuilder();
     OmimonBlueprint blue = builder.setName("Corgimon").setBaseDefence(10).setBaseHealth(100)
         .setBaseSpeed(50)

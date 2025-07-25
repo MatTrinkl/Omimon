@@ -1,8 +1,5 @@
 package at.trinkl.Omimon.Battle.Events;
 
-import at.trinkl.Omimon.Omimon.Omimon;
-import at.trinkl.Omimon.Trainer;
-
 /**
  * The {@code BattleEvent} class represents a single event that occurs during a battle in the game.
  * Each event has a specific type and an associated message that can be displayed in the UI or

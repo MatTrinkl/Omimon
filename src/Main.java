@@ -1,5 +1,4 @@
 import at.trinkl.Omimon.Battle.Battle;
-import at.trinkl.Omimon.Battle.Events.BattleEventListener;
 import at.trinkl.Omimon.Battle.Events.ConsoleBattleLogger;
 import at.trinkl.Omimon.Battle.Strategy.ActionStrategy.CautiousActionStrategy;
 import at.trinkl.Omimon.Battle.Strategy.ActionStrategy.ConfidentActionStrategy;
