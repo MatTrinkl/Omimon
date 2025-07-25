@@ -181,7 +181,7 @@ public class Omimon {
   /**
    * Fully heals this {@link Omimon}'s health back to maximum.
    */
-  public void Heal() {
+  public void heal() {
     currentHealth.Heal();
   }
 
@@ -201,14 +201,14 @@ public class Omimon {
    */
   public void registerToBattle(BattleContext battle) {
     currentBattle = battle;
-    currentBattle.dispatchEvent(new BattleEvent(BattleEventType.REGISTER_SUCCESSFUL,getName()));
+    currentBattle.dispatchEvent(new BattleEvent(BattleEventType.REGISTER_SUCCESSFUL, getName()));
   }
 
   /**
    * Deregisters this Omimon from the current battle.
    */
   public void deRegisterFromBattle() {
-    currentBattle.dispatchEvent(new BattleEvent(BattleEventType.DEREGISTER_SUCCESSFUL,getName()));
+    currentBattle.dispatchEvent(new BattleEvent(BattleEventType.DEREGISTER_SUCCESSFUL, getName()));
     currentBattle = null;
   }
 

@@ -60,6 +60,12 @@ public class AttackBattleCommand implements BattleCommand {
     return executer;
   }
 
+  /**
+   * Updates the references of a {@link Omimon} in a command.
+   *
+   * @param oldOne The {@link Omimon} to update.
+   * @param newOne The new {@link Omimon}.
+   */
   @Override
   public void updateOmimons(Omimon oldOne, Omimon newOne) {
     if (oldOne == executer) {

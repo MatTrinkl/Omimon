@@ -30,5 +30,12 @@ public interface BattleCommand {
    * @return The {@link Omimon} that will execute or has executed this command.
    */
   Omimon getExecuter();
+
+  /**
+   * Updates the references of a {@link Omimon} in a command.
+   *
+   * @param oldOne The {@link Omimon} to update.
+   * @param newOne The new {@link Omimon}.
+   */
   void updateOmimons(Omimon oldOne, Omimon newOne);
 }

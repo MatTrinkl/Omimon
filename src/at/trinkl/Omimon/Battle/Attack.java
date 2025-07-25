@@ -87,8 +87,8 @@ public class Attack {
    * <p>
    * The base damage is calculated based on type matchups. Then, each effect in
    * {@code possibleEffects} (if any) is applied to potentially modify the damage. Then the
-   * {@link at.trinkl.Omimon.Values.Defence} from the defender is subtracted. Finally, the
-   * resulting damage is inflicted on the defender.
+   * {@link at.trinkl.Omimon.Values.Defence} from the defender is subtracted. Finally, the resulting
+   * damage is inflicted on the defender.
    * </p>
    *
    * @param attacker The {@link Omimon} performing the attack.

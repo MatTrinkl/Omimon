@@ -6,16 +6,44 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
+
 /**
  * Represents an elemental type used by {@link Omimon} and {@link Attack}.
- * <p>
- * Each type has strengths and weaknesses against others, defined in a static effectiveness map.
+ *
+ * <p>Each {@code OmiType} has defined strengths and weaknesses against other types,
+ * managed through a static effectiveness chart. This chart determines how effective an attack of
+ * one type is against a defender of another type.</p>
+ *
+ * <p>Examples:
+ * <ul>
+ *   <li>{@code Fire} is strong against {@code Plant} (2.0x damage)</li>
+ *   <li>{@code Water} is weak against {@code Plant} (0.5x damage)</li>
+ *   <li>{@code Normal} is neutral against all types (1.0x damage)</li>
+ * </ul>
  * </p>
  */
 public enum OmiType {
+  /**
+   * Water-type, strong against Fire, weak against Plant.
+   */
   Water,
+
+  /**
+   * Fire-type, strong against Plant, weak against Water.
+   */
   Fire,
+
+  /**
+   * Plant-type, strong against Water, weak against Fire.
+   */
   Plant,
+
+  /**
+   * Normal-type, neutral against all types.
+   */
   Normal;
 
   // Effectiveness chart: attacker -> (defender -> multiplier)
@@ -27,14 +55,14 @@ public enum OmiType {
       effectivenessChart.put(type, new EnumMap<>(OmiType.class));
     }
 
-    // Default all to 1.0
+    // Set all combinations to neutral by default (1.0x)
     for (OmiType attacker : OmiType.values()) {
       for (OmiType defender : OmiType.values()) {
         effectivenessChart.get(attacker).put(defender, 1.0);
       }
     }
 
-    // Custom effectiveness
+    // Define specific strengths and weaknesses
     effectivenessChart.get(Fire).put(Plant, 2.0);
     effectivenessChart.get(Plant).put(Water, 2.0);
     effectivenessChart.get(Water).put(Fire, 2.0);
@@ -45,11 +73,15 @@ public enum OmiType {
   }
 
   /**
-   * Returns the effectiveness multiplier when this type attacks the given defender type.
+   * Returns the effectiveness multiplier when this type is used to attack the given defender type.
    *
-   * @param defenderType The defending type.
-   * @return Effectiveness multiplier (e.g. 2.0 = super effective, 0.5 = not effective, 1.0 =
-   * neutral)
+   * @param defenderType the defending {@code OmiType}
+   * @return the damage multiplier:
+   * <ul>
+   *   <li>{@code 2.0} for super effective</li>
+   *   <li>{@code 0.5} for not very effective</li>
+   *   <li>{@code 1.0} for neutral</li>
+   * </ul>
    */
   public double getEffectivenessAgainst(OmiType defenderType) {
     return effectivenessChart

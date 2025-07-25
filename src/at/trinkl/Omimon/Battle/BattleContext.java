@@ -2,6 +2,7 @@ package at.trinkl.Omimon.Battle;
 
 import at.trinkl.Omimon.Battle.BattleCommand.BattleCommand;
 import at.trinkl.Omimon.Battle.Events.BattleEvent;
+import at.trinkl.Omimon.Battle.Events.BattleEventDispatcher;
 import at.trinkl.Omimon.Battle.Events.BattleEventListener;
 import at.trinkl.Omimon.Omimon.Omimon;
 import at.trinkl.Omimon.Trainer;
@@ -46,6 +47,12 @@ public interface BattleContext {
    */
   void omimonEscaped(Omimon omimon);
 
+  /**
+   * Dispatches the {@link BattleEvent} to the {@link BattleEventDispatcher
+  }.
+      *
+      * @param battleEvent The Event to dispatch.
+   */
   void dispatchEvent(BattleEvent battleEvent);
 
 }

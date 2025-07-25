@@ -135,4 +135,12 @@ public class Trainer {
   public ActionStrategy getActionStrategy() {
     return actionStrategy;
   }
+
+  public void healAllOmimon(){
+    livingOmimons.addAll(deadOmimons);
+    deadOmimons.clear();
+    for (Omimon omimon : livingOmimons) {
+      omimon.heal();
+    }
+  }
 }

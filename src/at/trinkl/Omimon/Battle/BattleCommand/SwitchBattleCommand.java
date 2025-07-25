@@ -59,6 +59,12 @@ public class SwitchBattleCommand implements BattleCommand {
     return omimonToSwitch;
   }
 
+  /**
+   * Updates the references of a {@link Omimon} in a command.
+   *
+   * @param oldOne The {@link Omimon} to update.
+   * @param newOne The new {@link Omimon}.
+   */
   @Override
   public void updateOmimons(Omimon oldOne, Omimon newOne) {
     if (oldOne == omimonToSwitch) {

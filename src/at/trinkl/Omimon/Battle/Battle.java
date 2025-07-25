@@ -43,6 +43,8 @@ public class Battle implements BattleContext {
 
   /**
    * Private base constructor. Sets up fighterA and initializes the queue.
+   *
+   * @param trainerA The player's trainer.
    */
   private Battle(Trainer trainerA) {
     this.trainerA = trainerA;
@@ -99,6 +101,11 @@ public class Battle implements BattleContext {
     }
   }
 
+  /**
+   * Add an {@link BattleEventListener} to the {@link BattleEventDispatcher}.
+   *
+   * @param listener Listener to add.
+   */
   public void addBattleEventListener(BattleEventListener listener) {
     eventDispatcher.addListener(listener);
   }
@@ -135,6 +142,7 @@ public class Battle implements BattleContext {
   @Override
   public void omimonEscaped(Omimon omimonEscaped) {
     if (fighterB == omimonEscaped && trainerB == null) {
+      commandQueue.clear();
       triggerVictory(trainerA);
     } else {
       throw new IllegalArgumentException(
@@ -142,6 +150,11 @@ public class Battle implements BattleContext {
     }
   }
 
+  /**
+   * Dispatches the {@link BattleEvent} to the {@link BattleEventDispatcher}.
+   *
+   * @param battleEvent The Event to dispatch.
+   */
   @Override
   public void dispatchEvent(BattleEvent battleEvent) {
     eventDispatcher.dispatch(battleEvent);
@@ -255,11 +268,7 @@ public class Battle implements BattleContext {
     while (!commandQueue.isEmpty()) {
 
       BattleCommand battleCommand = commandQueue.poll();
-      if (battleCommand.getExecuter() == fighterA) {
-        battleCommand.execute();
-      } else {
-        battleCommand.execute();
-      }
+      battleCommand.execute();
     }
   }
 

@@ -23,7 +23,7 @@ public class HealAttack implements AttackEffects {
    */
   @Override
   public int ApplyEffect(Attack attack, Omimon attacker, int baseDmg) {
-    attacker.Heal();
+    attacker.heal();
     return 0;
   }
 }

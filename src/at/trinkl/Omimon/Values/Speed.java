@@ -5,8 +5,8 @@ import at.trinkl.Omimon.Omimon.Omimon;
 /**
  * Represents the speed stat of an {@link Omimon}.
  * <p>
- * Speed determines turn order in battles — higher speed values allow an Omimon to act before slower ones.
- * This value is clamped to the range {@code [0, 255]} as defined in {@link BaseValue}.
+ * Speed determines turn order in battles — higher speed values allow an Omimon to act before slower
+ * ones. This value is clamped to the range {@code [0, 255]} as defined in {@link BaseValue}.
  * </p>
  */
 public class Speed extends BaseValue {

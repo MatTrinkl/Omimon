@@ -154,6 +154,7 @@ public class OmimonBlueprintBuilder {
     this.battleStrategy = battleStrategy;
     return this;
   }
+
   /**
    * Builds and returns a new {@link OmimonBlueprint} using the provided parameters.
    *

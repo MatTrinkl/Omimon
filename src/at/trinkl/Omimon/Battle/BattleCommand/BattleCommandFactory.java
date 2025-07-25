@@ -34,8 +34,9 @@ public class BattleCommandFactory {
    * @param attacker The Omimon performing the attack.
    * @return A new {@link AttackBattleCommand}.
    */
-  public BattleCommand createAttackCommand(BattleContext battleContext,Attack attack, Omimon attacker,Omimon defender) {
-    return new AttackBattleCommand(battleContext,attack, attacker,defender);
+  public BattleCommand createAttackCommand(BattleContext battleContext, Attack attack,
+      Omimon attacker, Omimon defender) {
+    return new AttackBattleCommand(battleContext, attack, attacker, defender);
   }
 
   /**
