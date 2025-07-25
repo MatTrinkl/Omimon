@@ -18,7 +18,7 @@ public interface BattleCommand {
   /**
    * Executes the battle command using the specified attacker and defender.
    */
-  public void execute();
+  void execute();
 
   /**
    * Returns the {@link Omimon} associated with this command instance.
@@ -29,6 +29,6 @@ public interface BattleCommand {
    *
    * @return The {@link Omimon} that will execute or has executed this command.
    */
-  public Omimon getExecuter();
-  public void updateOmimons(Omimon oldOne, Omimon newOne);
+  Omimon getExecuter();
+  void updateOmimons(Omimon oldOne, Omimon newOne);
 }

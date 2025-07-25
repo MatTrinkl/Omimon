@@ -23,14 +23,14 @@ import at.trinkl.Omimon.Trainer;
  */
 public class Omimon {
 
-  private OmimonBlueprint blueprint;
-  private String name;
-  private Health currentHealth;
-  private Speed currentSpeed;
-  private Defence currentDefence;
-  private int level;
-  private List<Attack> attacks;
-  private Trainer trainer;
+  private final OmimonBlueprint blueprint;
+  private final String name;
+  private final Health currentHealth;
+  private final Speed currentSpeed;
+  private final Defence currentDefence;
+  private final int level;
+  private final List<Attack> attacks;
+  private final Trainer trainer;
   private BattleContext currentBattle;
 
   /**

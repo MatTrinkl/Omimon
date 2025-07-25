@@ -20,5 +20,5 @@ public interface ActionStrategy {
    * @param defender The {@link Omimon} currently being targeted or opposed.
    * @return The {@link BattleAction} selected according to this strategy.
    */
-  public BattleAction getNextActionByStrategy(Omimon attacker, Omimon defender);
+  BattleAction getNextActionByStrategy(Omimon attacker, Omimon defender);
 }

@@ -17,12 +17,12 @@ import java.util.List;
  */
 public class Trainer {
 
-  private List<Omimon> livingOmimons;
-  private List<Omimon> deadOmimons;
-  private String name;
-  private String gender;
-  private int id;
-  private ActionStrategy actionStrategy;
+  private final List<Omimon> livingOmimons;
+  private final List<Omimon> deadOmimons;
+  private final String name;
+  private final String gender;
+  private final int id;
+  private final ActionStrategy actionStrategy;
 
   /**
    * Constructs a new {@code Trainer} with identity information and a combat strategy.

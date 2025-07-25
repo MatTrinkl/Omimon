@@ -20,5 +20,5 @@ public interface ValueUpdatable {
    * @return {@code true} if the value is still above zero or valid after the update; {@code false}
    * if it has reached a failure or death threshold.
    */
-  public boolean updateValue(int value);
+  boolean updateValue(int value);
 }

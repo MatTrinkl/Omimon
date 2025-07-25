@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class Attack {
 
-  private Strength strength;
-  private String name;
-  private OmiType type;
-  private List<AttackEffects> possibleEffects;
+  private final Strength strength;
+  private final String name;
+  private final OmiType type;
+  private final List<AttackEffects> possibleEffects;
 
   /**
    * Creates a new {@code Attack} instance.

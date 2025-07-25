@@ -17,8 +17,8 @@ import at.trinkl.Omimon.Trainer;
  */
 public class SwitchBattleCommand implements BattleCommand {
 
-  private BattleContext battle;
-  private Trainer trainer;
+  private final BattleContext battle;
+  private final Trainer trainer;
   private Omimon omimonToSwitch;
 
   /**

@@ -46,6 +46,6 @@ public interface BattleContext {
    */
   void omimonEscaped(Omimon omimon);
 
-  public void dispatchEvent(BattleEvent battleEvent);
+  void dispatchEvent(BattleEvent battleEvent);
 
 }

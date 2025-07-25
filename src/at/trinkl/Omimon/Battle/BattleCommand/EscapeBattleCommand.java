@@ -16,7 +16,7 @@ import at.trinkl.Omimon.Omimon.Omimon;
  */
 public class EscapeBattleCommand implements BattleCommand {
 
-  private BattleContext battle;
+  private final BattleContext battle;
   private Omimon omimonEscaped;
 
   /**

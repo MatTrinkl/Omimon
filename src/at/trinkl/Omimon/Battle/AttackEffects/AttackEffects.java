@@ -20,5 +20,5 @@ public interface AttackEffects {
    * @return The final damage after applying this effect. This damage needs to be added to the damage
    * previously calculated.
    */
-  public int ApplyEffect(Attack attack, Omimon attacker, int baseDmg);
+  int ApplyEffect(Attack attack, Omimon attacker, int baseDmg);
 }

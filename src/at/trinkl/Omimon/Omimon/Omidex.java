@@ -143,11 +143,11 @@ public class Omidex {
         Arrays.asList(new AttackEffects[]{new HealAttack()}));
     attacks.put(a.getName(), a);
     a = new Attack("NormalAttack", new Strength(12), OmiType.Normal,
-        Arrays.asList(new AttackEffects[]{new FollowAttack(), new CriticalAttack()}));
+        Arrays.asList(new FollowAttack(), new CriticalAttack()));
     attacks.put(a.getName(), a);
     a = new Attack("ULTIMATE", new Strength(10), OmiType.Fire,
         Arrays.asList(
-            new AttackEffects[]{new HealAttack(), new FollowAttack(), new CriticalAttack()}));
+            new HealAttack(), new FollowAttack(), new CriticalAttack()));
     attacks.put(a.getName(), a);
     return attacks;
   }

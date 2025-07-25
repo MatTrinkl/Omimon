@@ -16,9 +16,9 @@ import at.trinkl.Omimon.Omimon.Omimon;
  */
 public class AttackBattleCommand implements BattleCommand {
 
-  private Attack attack;
+  private final Attack attack;
   private Omimon executer;
-  private BattleContext battleContext;
+  private final BattleContext battleContext;
   private Omimon defender;
 
   /**

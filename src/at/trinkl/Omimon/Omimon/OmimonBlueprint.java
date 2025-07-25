@@ -17,16 +17,16 @@ import java.util.List;
  */
 public class OmimonBlueprint {
 
-  private String name;
-  private OmiType mainType;
-  private OmiType secoundaryType;
+  private final String name;
+  private final OmiType mainType;
+  private final OmiType secoundaryType;
   private int baseDefence;
   private int baseHealth;
   private int baseSpeed;
-  private String evolution;
-  private int levelToEvolve;
-  private List<Attack> attacks;
-  private BattleStrategy battleStrategy;
+  private final String evolution;
+  private final int levelToEvolve;
+  private final List<Attack> attacks;
+  private final BattleStrategy battleStrategy;
 
   /**
    * Constructs a new {@code OmimonBlueprint} with the given parameters.
